@@ -85,6 +85,12 @@ const eventHtml = (eventName) => `<script>
   if (typeof window.gtag !== 'function') {
     return;
   }
+  window.__stretchTherapyGtmEventLocks = window.__stretchTherapyGtmEventLocks || {};
+  if (window.__stretchTherapyGtmEventLocks['${eventName}']) {
+    return;
+  }
+  window.__stretchTherapyGtmEventLocks['${eventName}'] = true;
+
   var gtm = window.google_tag_manager && window.google_tag_manager['${GTM_PUBLIC_ID}'];
   var dataLayerApi = gtm && gtm.dataLayer;
   function readValue(key) {
@@ -100,6 +106,9 @@ const eventHtml = (eventName) => `<script>
     form_context: readValue('form_context'),
     outbound: ${eventName.includes('_click') ? 'true' : 'false'}
   });
+  window.setTimeout(function() {
+    window.__stretchTherapyGtmEventLocks['${eventName}'] = false;
+  }, 1000);
 })();
 </script>`;
 
@@ -136,6 +145,7 @@ const main = async () => {
   const existingTags = (await api(`${workspace.path}/tags`)).tag || [];
   const created = [];
   const reused = [];
+  const updated = [];
 
   for (const eventName of EVENTS) {
     const triggerName = `Event - ${eventName}`;
@@ -159,7 +169,15 @@ const main = async () => {
       });
       created.push(tag.name);
     } else {
-      reused.push(tag.name);
+      const updatedTag = await api(`${workspace.path}/tags/${tag.tagId}`, {
+        method: 'PUT',
+        body: {
+          ...customHtmlTag(eventName, trigger.triggerId),
+          tagId: tag.tagId,
+          fingerprint: tag.fingerprint,
+        },
+      });
+      updated.push(updatedTag.name);
     }
   }
 
@@ -184,6 +202,7 @@ const main = async () => {
     workspace: { workspaceId: workspace.workspaceId, name: workspace.name },
     created,
     reused,
+    updated,
     publishedVersionId: version.containerVersion.containerVersionId,
     compilerError: publish.compilerError || false,
     liveTriggers: refreshedTriggers
