@@ -4,7 +4,8 @@ const gtmId =
   import.meta.env.PUBLIC_GTM_ID ||
   import.meta.env.NEXT_PUBLIC_GTM_CONTAINER_ID ||
   import.meta.env.NEXT_PUBLIC_GTM_ID ||
-  import.meta.env.GTM_CONTAINER_ID;
+  import.meta.env.GTM_CONTAINER_ID ||
+  'GTM-5F3MLDMN';
 const validGtmId = /^GTM-[A-Z0-9]+$/i.test(gtmId || '') ? gtmId : '';
 ---
 
