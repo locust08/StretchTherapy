@@ -29,7 +29,7 @@ const validGa4MeasurementId = /^G-[A-Z0-9]+$/i.test(ga4MeasurementId || '')
 {validGa4MeasurementId && (
   <script async src={`https://www.googletagmanager.com/gtag/js?id=${validGa4MeasurementId}`}></script>
 )}
-<script is:inline define:vars={{ ga4MeasurementId: validGa4MeasurementId }}>
+<script is:inline define:vars={{ ga4MeasurementId: validGa4MeasurementId, hasGtm: Boolean(validGtmId) }}>
   window.dataLayer = window.dataLayer || [];
   window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
 
@@ -40,6 +40,18 @@ const validGa4MeasurementId = /^G-[A-Z0-9]+$/i.test(ga4MeasurementId || '')
 
   window.trackStretchTherapyEvent = function(action, params) {
     const eventName = `stretchtherapy_${action}`;
+    const now = Date.now();
+    const previousEvent = window.__stretchTherapyLastEvent || {};
+
+    if (previousEvent.name === eventName && now - previousEvent.time < 1000) {
+      return;
+    }
+
+    window.__stretchTherapyLastEvent = {
+      name: eventName,
+      time: now,
+    };
+
     const eventParams = {
       event_category: 'stretchtherapy',
       event_action: action,
@@ -51,6 +63,8 @@ const validGa4MeasurementId = /^G-[A-Z0-9]+$/i.test(ga4MeasurementId || '')
       ...eventParams,
     });
 
-    window.gtag('event', eventName, eventParams);
+    if (!hasGtm && ga4MeasurementId) {
+      window.gtag('event', eventName, eventParams);
+    }
   };
 </script>
