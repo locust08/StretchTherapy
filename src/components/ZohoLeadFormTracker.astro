@@ -1,0 +1,14 @@
+<script is:inline>
+  window.addEventListener('message', (event) => {
+    if (event.origin !== 'https://forms.zohopublic.com') return;
+
+    const message = typeof event.data === 'string' ? event.data : JSON.stringify(event.data || {});
+    if (!/submit|success|thank|record|form/i.test(message)) return;
+
+    window.trackStretchTherapyEvent?.('lead_form_submit', {
+      page_location: window.location.href,
+      form_provider: 'zoho',
+      form_context: 'private_assessment',
+    });
+  });
+</script>

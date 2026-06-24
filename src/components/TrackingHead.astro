@@ -1,0 +1,55 @@
+---
+const gtmId =
+  import.meta.env.PUBLIC_GTM_CONTAINER_ID ||
+  import.meta.env.PUBLIC_GTM_ID ||
+  import.meta.env.NEXT_PUBLIC_GTM_CONTAINER_ID ||
+  import.meta.env.NEXT_PUBLIC_GTM_ID ||
+  import.meta.env.GTM_CONTAINER_ID;
+const ga4MeasurementId =
+  import.meta.env.PUBLIC_GA4_MEASUREMENT_ID ||
+  import.meta.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID;
+const validGtmId = /^GTM-[A-Z0-9]+$/i.test(gtmId || '') ? gtmId : '';
+const validGa4MeasurementId = /^G-[A-Z0-9]+$/i.test(ga4MeasurementId || '')
+  ? ga4MeasurementId
+  : '';
+---
+
+{validGtmId && (
+  <script is:inline define:vars={{ gtmId: validGtmId }}>
+    window.dataLayer = window.dataLayer || [];
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer',gtmId);
+  </script>
+)}
+
+{validGa4MeasurementId && (
+  <script async src={`https://www.googletagmanager.com/gtag/js?id=${validGa4MeasurementId}`}></script>
+)}
+<script is:inline define:vars={{ ga4MeasurementId: validGa4MeasurementId }}>
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
+
+  if (ga4MeasurementId) {
+    window.gtag('js', new Date());
+    window.gtag('config', ga4MeasurementId);
+  }
+
+  window.trackStretchTherapyEvent = function(action, params) {
+    const eventName = `stretchtherapy_${action}`;
+    const eventParams = {
+      event_category: 'stretchtherapy',
+      event_action: action,
+      ...params,
+    };
+
+    window.dataLayer.push({
+      event: eventName,
+      ...eventParams,
+    });
+
+    window.gtag('event', eventName, eventParams);
+  };
+</script>

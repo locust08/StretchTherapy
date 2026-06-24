@@ -1,0 +1,20 @@
+---
+const gtmId =
+  import.meta.env.PUBLIC_GTM_CONTAINER_ID ||
+  import.meta.env.PUBLIC_GTM_ID ||
+  import.meta.env.NEXT_PUBLIC_GTM_CONTAINER_ID ||
+  import.meta.env.NEXT_PUBLIC_GTM_ID ||
+  import.meta.env.GTM_CONTAINER_ID;
+const validGtmId = /^GTM-[A-Z0-9]+$/i.test(gtmId || '') ? gtmId : '';
+---
+
+{validGtmId && (
+  <noscript>
+    <iframe
+      src={`https://www.googletagmanager.com/ns.html?id=${validGtmId}`}
+      height="0"
+      width="0"
+      style="display:none;visibility:hidden"
+    ></iframe>
+  </noscript>
+)}

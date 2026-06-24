@@ -1,4 +1,8 @@
 ---
+import TrackingHead from '../components/TrackingHead.astro';
+import TrackingNoScript from '../components/TrackingNoScript.astro';
+import ZohoLeadFormTracker from '../components/ZohoLeadFormTracker.astro';
+
 const formUrl =
   'https://forms.zohopublic.com/stretchtherapycentreplt/form/Join/formperma/l5bbEYA-pENXJ6JNfoRuoLRAYOV95Aph5ycQXEpoWfs';
 const pageTitle = 'Book a Private Assessment | Stretch Therapy';
@@ -13,6 +17,7 @@ const pageDescription =
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
     <meta name="robots" content="noindex, follow" />
+    <TrackingHead />
     <style>
       html,
       body {
@@ -31,6 +36,7 @@ const pageDescription =
     </style>
   </head>
   <body>
+    <TrackingNoScript />
     <section
       aria-label="Page heading structure"
       style="position:absolute !important;width:1px !important;height:1px !important;margin:-1px !important;padding:0 !important;overflow:hidden !important;clip:rect(0 0 0 0) !important;clip-path:inset(50%) !important;white-space:nowrap !important;border:0 !important;"
@@ -44,5 +50,6 @@ const pageDescription =
       loading="eager"
       referrerpolicy="strict-origin-when-cross-origin"
     ></iframe>
+    <ZohoLeadFormTracker />
   </body>
 </html>

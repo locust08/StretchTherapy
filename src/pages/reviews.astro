@@ -1,6 +1,8 @@
 ---
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import TrackingHead from '../components/TrackingHead.astro';
+import TrackingNoScript from '../components/TrackingNoScript.astro';
 
 const baseDir = path.join(process.cwd(), 'public', 'reference', "reviews");
 const head = JSON.parse(await fs.readFile(path.join(baseDir, 'head.json'), 'utf8'));
@@ -26,6 +28,7 @@ const framePath = '/reference/reviews/index.html';
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <TrackingHead />
     <style>
       html, body {
         margin: 0;
@@ -42,6 +45,7 @@ const framePath = '/reference/reviews/index.html';
     </style>
   </head>
   <body>
+    <TrackingNoScript />
     <section aria-label="Page heading structure" style="position:absolute !important;width:1px !important;height:1px !important;margin:-1px !important;padding:0 !important;overflow:hidden !important;clip:rect(0 0 0 0) !important;clip-path:inset(50%) !important;white-space:nowrap !important;border:0 !important;">
       <h1>Stretch Therapy Reviews</h1>
       <h2>Student experiences</h2>
@@ -82,6 +86,36 @@ const framePath = '/reference/reviews/index.html';
         return routeMapValue[normalizedTarget] || null;
       };
 
+      const trackOutboundClick = (link) => {
+        const href = link.getAttribute('href');
+        if (!href) return;
+
+        let resolvedUrl;
+        try {
+          resolvedUrl = new URL(href, sourceUrlValue);
+        } catch {
+          return;
+        }
+
+        const host = resolvedUrl.hostname.replace(/^www\./, '');
+        const text = link.textContent?.trim() || link.getAttribute('aria-label') || '';
+        const commonParams = {
+          link_url: resolvedUrl.href,
+          link_text: text,
+          page_location: window.location.href,
+        };
+
+        if (host === 'wa.me' || host.includes('whatsapp.com')) {
+          window.trackStretchTherapyEvent?.('whatsapp_click', commonParams);
+        } else if (host === 'facebook.com' || host === 'fb.com') {
+          window.trackStretchTherapyEvent?.('facebook_click', commonParams);
+        } else if (host === 'instagram.com') {
+          window.trackStretchTherapyEvent?.('instagram_click', commonParams);
+        } else if (host.includes('google.') && resolvedUrl.href.includes('/maps')) {
+          window.trackStretchTherapyEvent?.('google_maps_click', commonParams);
+        }
+      };
+
       const rewriteLinks = (root) => {
         root.querySelectorAll?.('a[href]').forEach((link) => {
           const localRoute = localRouteForHref(link.getAttribute('href'));
@@ -119,6 +153,8 @@ const framePath = '/reference/reviews/index.html';
         iframeDocument.addEventListener('click', (event) => {
           const link = event.target.closest?.('a[href]');
           if (!link) return;
+
+          trackOutboundClick(link);
 
           const localRoute = localRouteForHref(link.getAttribute('href'));
           if (!localRoute) return;
