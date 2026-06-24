@@ -1,0 +1,141 @@
+---
+import fs from 'node:fs/promises';
+import path from 'node:path';
+
+const baseDir = path.join(process.cwd(), 'public', 'reference', "home");
+const head = JSON.parse(await fs.readFile(path.join(baseDir, 'head.json'), 'utf8'));
+const sourceUrl = "https://stretchtherapy.my/";
+const routeMap = {
+  "https://stretchtherapy.my/": "/",
+  "https://stretchtherapy.my/about": "/about",
+  "https://stretchtherapy.my/first-timers": "/first-timers",
+  "https://stretchtherapy.my/classes": "/classes",
+  "https://stretchtherapy.my/reviews": "/reviews",
+  "https://stretchtherapy.my/contact": "/contact",
+  "https://stretchtherapy.my/privacy-policy": "/privacy-policy",
+  "https://stretchtherapy.my/corporate": "/corporate"
+};
+const framePath = '/reference/home/index.html';
+---
+
+<html>
+  <head>
+    <title>{head.title}</title>
+    {head.metas?.map((meta) => <meta {...meta} />)}
+    {head.links?.map((link) => <link {...link} />)}
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <style>
+      html, body {
+        margin: 0;
+        height: 100%;
+      }
+
+      iframe {
+        width: 100%;
+        height: 100vh;
+        border: 0;
+        display: block;
+      }
+
+    </style>
+  </head>
+  <body>
+    <section aria-label="Page heading structure" style="position:absolute !important;width:1px !important;height:1px !important;margin:-1px !important;padding:0 !important;overflow:hidden !important;clip:rect(0 0 0 0) !important;clip-path:inset(50%) !important;white-space:nowrap !important;border:0 !important;">
+      <h1>We are the only gym in Malaysia offering stretching classes and workshops as a form of exercise.</h1>
+      <h2>Stretch Therapy</h2>
+      <h2>For recovery, pain therapy, sports performance and wellbeing</h2>
+      <h2>Why Stretch Therapy</h2>
+      <h3>Clear goals</h3>
+      <h3>Find the root cause, achieve long-lasting effects</h3>
+      <h3>Simple props and equipment</h3>
+      <h3>Body and neural integration</h3>
+      <h3>Proven results</h3>
+      <h2>Who are we</h2>
+      <h2>First-timers</h2>
+      <h2>Follow Us</h2>
+    </section>
+    <iframe id="page-frame" src={framePath}></iframe>
+    <script is:inline>
+      const iframe = document.getElementById('page-frame');
+      const sourceUrlValue = "https://stretchtherapy.my/";
+      const routeMapValue = {
+  "https://stretchtherapy.my/": "/",
+  "https://stretchtherapy.my/about": "/about",
+  "https://stretchtherapy.my/first-timers": "/first-timers",
+  "https://stretchtherapy.my/classes": "/classes",
+  "https://stretchtherapy.my/reviews": "/reviews",
+  "https://stretchtherapy.my/contact": "/contact",
+  "https://stretchtherapy.my/privacy-policy": "/privacy-policy",
+  "https://stretchtherapy.my/corporate": "/corporate"
+};
+
+      const normalizeTarget = (href) => {
+        if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:')) {
+          return null;
+        }
+
+        try {
+          const resolvedUrl = new URL(href, sourceUrlValue);
+          const pathname = resolvedUrl.pathname.replace(/\/+$/, '') || '/';
+          return resolvedUrl.origin + pathname;
+        } catch {
+          return null;
+        }
+      };
+
+      const localRouteForHref = (href) => {
+        const normalizedTarget = normalizeTarget(href);
+        if (!normalizedTarget) return null;
+        return routeMapValue[normalizedTarget] || null;
+      };
+
+      const rewriteLinks = (root) => {
+        root.querySelectorAll?.('a[href]').forEach((link) => {
+          const localRoute = localRouteForHref(link.getAttribute('href'));
+          if (!localRoute) return;
+
+          link.setAttribute('href', localRoute);
+          link.setAttribute('target', '_top');
+        });
+      };
+
+      iframe?.addEventListener('load', () => {
+        const iframeWindow = iframe.contentWindow;
+        const iframeDocument = iframe.contentDocument;
+        if (!iframeWindow || !iframeDocument) return;
+
+        rewriteLinks(iframeDocument);
+
+        const observer = new iframeWindow.MutationObserver((mutations) => {
+          for (const mutation of mutations) {
+            mutation.addedNodes.forEach((node) => {
+              if (node.nodeType === iframeWindow.Node.ELEMENT_NODE) {
+                rewriteLinks(node);
+              }
+            });
+          }
+        });
+
+        if (iframeDocument.documentElement) {
+          observer.observe(iframeDocument.documentElement, {
+            childList: true,
+            subtree: true,
+          });
+        }
+
+        iframeDocument.addEventListener('click', (event) => {
+          const link = event.target.closest?.('a[href]');
+          if (!link) return;
+
+          const localRoute = localRouteForHref(link.getAttribute('href'));
+          if (!localRoute) return;
+
+          event.preventDefault();
+          window.location.assign(localRoute);
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,192 @@
+{
+  "title": "First-Timers Stretch Therapy Malaysia | Assessment",
+  "metas": [
+    {
+      "charset": "UTF-8"
+    },
+    {
+      "name": "viewport",
+      "content": "width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"
+    },
+    {
+      "name": "description",
+      "content": "Start Stretch Therapy with a private assessment for stiffness, pain, injuries or low flexibility, guided by teachers in Malaysia."
+    },
+    {
+      "name": "keywords",
+      "content": "first time Stretch Therapy Malaysia, private stretch assessment Malaysia, stretching for beginners Malaysia, stiff body exercises, pain relief assessment, flexibility assessment Malaysia, stretch therapy for adults"
+    },
+    {
+      "property": "og:title",
+      "content": "First-Timers Stretch Therapy Malaysia | Assessment"
+    },
+    {
+      "property": "og:description",
+      "content": "Start Stretch Therapy with a private assessment for stiffness, pain, injuries or low flexibility, guided by teachers in Malaysia."
+    },
+    {
+      "name": "twitter:card",
+      "content": "summary_large_image"
+    },
+    {
+      "name": "twitter:title",
+      "content": "First-Timers Stretch Therapy Malaysia | Assessment"
+    },
+    {
+      "name": "twitter:description",
+      "content": "Start Stretch Therapy with a private assessment for stiffness, pain, injuries or low flexibility, guided by teachers in Malaysia."
+    },
+    {
+      "name": "robots",
+      "content": "max-image-preview:large"
+    },
+    {
+      "name": "generator",
+      "content": "webp-uploads 2.6.1"
+    }
+  ],
+  "links": [
+    {
+      "rel": "alternate",
+      "title": "oEmbed (JSON)",
+      "type": "application/json+oembed",
+      "href": "https://stretchtherapy.my/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fstretchtherapy.my%2Ffirst-timers%2F"
+    },
+    {
+      "rel": "alternate",
+      "title": "oEmbed (XML)",
+      "type": "text/xml+oembed",
+      "href": "https://stretchtherapy.my/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fstretchtherapy.my%2Ffirst-timers%2F&format=xml"
+    },
+    {
+      "rel": "stylesheet",
+      "id": "ae-pro-css-css",
+      "href": "https://stretchtherapy.my/wp-content/plugins/anywhere-elementor-pro/includes/assets/css/ae-pro.min.css?ver=2.29.3",
+      "media": "all"
+    },
+    {
+      "rel": "stylesheet",
+      "id": "qi-addons-for-elementor-grid-style-css",
+      "href": "https://stretchtherapy.my/wp-content/plugins/qi-addons-for-elementor/assets/css/grid.min.css?ver=1.9.6",
+      "media": "all"
+    },
+    {
+      "rel": "stylesheet",
+      "id": "qi-addons-for-elementor-helper-parts-style-css",
+      "href": "https://stretchtherapy.my/wp-content/plugins/qi-addons-for-elementor/assets/css/helper-parts.min.css?ver=1.9.6",
+      "media": "all"
+    },
+    {
+      "rel": "stylesheet",
+      "id": "qi-addons-for-elementor-style-css",
+      "href": "https://stretchtherapy.my/wp-content/plugins/qi-addons-for-elementor/assets/css/main.min.css?ver=1.9.6",
+      "media": "all"
+    },
+    {
+      "rel": "stylesheet",
+      "id": "parent-style-css",
+      "href": "https://stretchtherapy.my/wp-content/themes/ohio/style.css",
+      "media": "all"
+    },
+    {
+      "rel": "stylesheet",
+      "id": "ohio-style-css",
+      "href": "https://stretchtherapy.my/wp-content/themes/ohio-child/style.css?ver=1.0.0",
+      "media": "all"
+    },
+    {
+      "rel": "stylesheet",
+      "id": "vegas-css-css",
+      "href": "https://stretchtherapy.my/wp-content/plugins/anywhere-elementor-pro/includes/assets/lib/vegas/vegas.min.css?ver=2.4.0",
+      "media": "all"
+    },
+    {
+      "rel": "stylesheet",
+      "id": "swiper-css",
+      "href": "https://stretchtherapy.my/wp-content/plugins/qi-addons-for-elementor/assets/plugins/swiper/8.4.5/swiper.min.css?ver=8.4.5",
+      "media": "all"
+    },
+    {
+      "rel": "stylesheet",
+      "id": "elementor-frontend-css",
+      "href": "https://stretchtherapy.my/wp-content/uploads/elementor/css/custom-frontend.min.css?ver=1781780201",
+      "media": "all"
+    },
+    {
+      "rel": "stylesheet",
+      "id": "jet-tricks-frontend-css",
+      "href": "https://stretchtherapy.my/wp-content/plugins/jet-tricks/assets/css/jet-tricks-frontend.css?ver=2.0.1",
+      "media": "all"
+    },
+    {
+      "rel": "stylesheet",
+      "id": "wpdt-elementor-widget-font-css",
+      "href": "https://stretchtherapy.my/wp-content/plugins/wpdatatables/integrations/starter/page-builders/elementor/css/style.css?ver=7.4.1",
+      "media": "all"
+    },
+    {
+      "rel": "stylesheet",
+      "id": "deensimc-marquee-common-styles-css",
+      "href": "https://stretchtherapy.my/wp-content/plugins/marquee-addons-for-elementor/assets/css/plugins/common-styles.min.css?ver=3.9.74",
+      "media": ""
+    },
+    {
+      "rel": "stylesheet",
+      "id": "e-animation-fadeInUp-css",
+      "href": "https://stretchtherapy.my/wp-content/plugins/elementor/assets/lib/animations/styles/fadeInUp.min.css?ver=3.35.7",
+      "media": "all"
+    },
+    {
+      "rel": "stylesheet",
+      "id": "widget-image-css",
+      "href": "https://stretchtherapy.my/wp-content/plugins/elementor/assets/css/widget-image.min.css?ver=3.35.7",
+      "media": "all"
+    },
+    {
+      "rel": "stylesheet",
+      "id": "e-shapes-css",
+      "href": "https://stretchtherapy.my/wp-content/plugins/elementor/assets/css/conditionals/shapes.min.css?ver=3.35.7",
+      "media": "all"
+    },
+    {
+      "rel": "stylesheet",
+      "id": "e-animation-pulse-css",
+      "href": "https://stretchtherapy.my/wp-content/plugins/elementor/assets/lib/animations/styles/e-animation-pulse.min.css?ver=3.35.7",
+      "media": "all"
+    },
+    {
+      "rel": "stylesheet",
+      "id": "e-animation-fadeIn-css",
+      "href": "https://stretchtherapy.my/wp-content/plugins/elementor/assets/lib/animations/styles/fadeIn.min.css?ver=3.35.7",
+      "media": "all"
+    },
+    {
+      "rel": "stylesheet",
+      "id": "widget-spacer-css",
+      "href": "https://stretchtherapy.my/wp-content/plugins/elementor/assets/css/widget-spacer.min.css?ver=3.35.7",
+      "media": "all"
+    },
+    {
+      "rel": "stylesheet",
+      "id": "e-animation-slideInLeft-css",
+      "href": "https://stretchtherapy.my/wp-content/plugins/elementor/assets/lib/animations/styles/slideInLeft.min.css?ver=3.35.7",
+      "media": "all"
+    },
+    {
+      "rel": "stylesheet",
+      "id": "elementor-gf-local-sofiasanssemicondensed-css",
+      "href": "https://stretchtherapy.my/wp-content/uploads/elementor/google-fonts/css/sofiasanssemicondensed.css?ver=1769023857",
+      "media": "all"
+    },
+    {
+      "rel": "stylesheet",
+      "id": "elementor-gf-local-dmsans-css",
+      "href": "https://stretchtherapy.my/wp-content/uploads/elementor/google-fonts/css/dmsans.css?ver=1769023859",
+      "media": "all"
+    },
+    {
+      "rel": "canonical",
+      "href": "https://stretchtherapy.my/first-timers/"
+    }
+  ]
+}
