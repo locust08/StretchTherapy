@@ -1,7 +1,6 @@
 ---
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import Analytics from '../components/Analytics.astro';
 
 const baseDir = path.join(process.cwd(), 'public', 'reference', "home");
 const head = JSON.parse(await fs.readFile(path.join(baseDir, 'head.json'), 'utf8'));
@@ -27,7 +26,6 @@ const framePath = '/reference/home/index.html';
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <Analytics />
     <style>
       html, body {
         margin: 0;

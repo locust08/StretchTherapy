@@ -8,10 +8,6 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "build:doppler": "doppler run -- pnpm build",
-    "deploy": "pnpm build:doppler && pnpm verify:analytics && wrangler pages deploy dist --project-name stretchtherapy --branch main",
-    "verify:analytics": "node scripts/verify-analytics.mjs",
-    "verify:live": "node scripts/check-live-analytics.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },
