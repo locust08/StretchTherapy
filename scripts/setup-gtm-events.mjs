@@ -11,6 +11,8 @@ const EVENTS = [
   'stretchtherapy_lead_form_submit',
 ];
 
+const dataLayerEventNameFor = (eventName) => `gtm_${eventName}`;
+
 const {
   GOOGLE_OAUTH_CLIENT_ID,
   GOOGLE_OAUTH_CLIENT_SECRET,
@@ -67,14 +69,14 @@ const getAccessToken = async () => {
 };
 
 const customEventTrigger = (eventName) => ({
-  name: `Event - ${eventName}`,
+  name: `Event - ${dataLayerEventNameFor(eventName)}`,
   type: 'customEvent',
   customEventFilter: [
     {
       type: 'equals',
       parameter: [
         { type: 'template', key: 'arg0', value: '{{_event}}' },
-        { type: 'template', key: 'arg1', value: eventName },
+        { type: 'template', key: 'arg1', value: dataLayerEventNameFor(eventName) },
       ],
     },
   ],
@@ -148,8 +150,12 @@ const main = async () => {
   const updated = [];
 
   for (const eventName of EVENTS) {
-    const triggerName = `Event - ${eventName}`;
+    const oldTriggerName = `Event - ${eventName}`;
+    const triggerName = `Event - ${dataLayerEventNameFor(eventName)}`;
     let trigger = existingTriggers.find((item) => item.name === triggerName);
+    if (!trigger) {
+      trigger = existingTriggers.find((item) => item.name === oldTriggerName);
+    }
     if (!trigger) {
       trigger = await api(`${workspace.path}/triggers`, {
         method: 'POST',
@@ -157,7 +163,16 @@ const main = async () => {
       });
       created.push(trigger.name);
     } else {
-      reused.push(trigger.name);
+      const updatedTrigger = await api(`${workspace.path}/triggers/${trigger.triggerId}`, {
+        method: 'PUT',
+        body: {
+          ...customEventTrigger(eventName),
+          triggerId: trigger.triggerId,
+          fingerprint: trigger.fingerprint,
+        },
+      });
+      reused.push(updatedTrigger.name);
+      trigger = updatedTrigger;
     }
 
     const tagName = `GA4 Event - ${eventName}`;
@@ -206,8 +221,8 @@ const main = async () => {
     publishedVersionId: version.containerVersion.containerVersionId,
     compilerError: publish.compilerError || false,
     liveTriggers: refreshedTriggers
-      .filter((item) => EVENTS.includes(item.name.replace(/^Event - /, '')))
-      .map((item) => ({ name: item.name, triggerId: item.triggerId })),
+      .filter((item) => EVENTS.includes(item.name.replace(/^Event - gtm_/, '')))
+      .map((item) => ({ name: item.name, triggerId: item.triggerId, customEventFilter: item.customEventFilter })),
     liveTags: refreshedTags
       .filter((item) => EVENTS.includes(item.name.replace(/^GA4 Event - /, '')))
       .map((item) => ({ name: item.name, tagId: item.tagId, firingTriggerId: item.firingTriggerId })),

@@ -40,6 +40,7 @@ const validGa4MeasurementId = /^G-[A-Z0-9]+$/i.test(ga4MeasurementId || '')
 
   window.trackStretchTherapyEvent = function(action, params) {
     const eventName = `stretchtherapy_${action}`;
+    const dataLayerEventName = `gtm_${eventName}`;
     const now = Date.now();
     const previousEvent = window.__stretchTherapyLastEvent || {};
 
@@ -59,7 +60,8 @@ const validGa4MeasurementId = /^G-[A-Z0-9]+$/i.test(ga4MeasurementId || '')
     };
 
     window.dataLayer.push({
-      event: eventName,
+      event: dataLayerEventName,
+      ga4_event_name: eventName,
       ...eventParams,
     });
 

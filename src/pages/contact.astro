@@ -117,20 +117,47 @@ const framePath = '/reference/contact/index.html';
         }
       };
 
-      const trackGoogleMapsFrameClick = (mapFrame) => {
-        window.trackStretchTherapyEvent?.('google_maps_click', {
-          link_url: mapFrame.getAttribute('src') || '',
-          link_text: mapFrame.getAttribute('title') || mapFrame.getAttribute('aria-label') || '',
-          page_location: window.location.href,
-        });
-      };
-
       const bindGoogleMapsFrames = (root) => {
         root.querySelectorAll?.('iframe[src*="maps.google"]').forEach((mapFrame) => {
           if (mapFrame.dataset.stretchtherapyTracked === 'true') return;
           mapFrame.dataset.stretchtherapyTracked = 'true';
-          mapFrame.addEventListener('pointerdown', () => trackGoogleMapsFrameClick(mapFrame));
-          mapFrame.addEventListener('focus', () => trackGoogleMapsFrameClick(mapFrame));
+
+          const wrapper = mapFrame.ownerDocument.createElement('div');
+          wrapper.style.position = 'relative';
+          wrapper.style.display = 'block';
+          wrapper.style.width = '100%';
+          wrapper.style.height = mapFrame.style.height || '100%';
+
+          const openMapsLink = mapFrame.ownerDocument.createElement('a');
+          openMapsLink.href = 'https://www.google.com/maps/search/?api=1&query=Stretch%20Therapy%2C%201st%20Floor%2C%2029%2C%20Jalan%20SS';
+          openMapsLink.target = '_blank';
+          openMapsLink.rel = 'noopener';
+          openMapsLink.textContent = 'Open in Maps';
+          openMapsLink.setAttribute('aria-label', 'Open Stretch Therapy in Google Maps');
+          openMapsLink.style.position = 'absolute';
+          openMapsLink.style.top = '12px';
+          openMapsLink.style.left = '12px';
+          openMapsLink.style.zIndex = '2';
+          openMapsLink.style.display = 'inline-flex';
+          openMapsLink.style.alignItems = 'center';
+          openMapsLink.style.gap = '6px';
+          openMapsLink.style.padding = '8px 12px';
+          openMapsLink.style.borderRadius = '3px';
+          openMapsLink.style.background = '#fff';
+          openMapsLink.style.color = '#1a73e8';
+          openMapsLink.style.font = '500 18px Arial, sans-serif';
+          openMapsLink.style.lineHeight = '1';
+          openMapsLink.style.textDecoration = 'none';
+          openMapsLink.style.boxShadow = '0 1px 4px rgba(0,0,0,.3)';
+
+          const externalIcon = mapFrame.ownerDocument.createElement('span');
+          externalIcon.textContent = '↗';
+          externalIcon.setAttribute('aria-hidden', 'true');
+          openMapsLink.appendChild(externalIcon);
+
+          mapFrame.parentNode.insertBefore(wrapper, mapFrame);
+          wrapper.appendChild(mapFrame);
+          wrapper.appendChild(openMapsLink);
         });
       };
 
