@@ -126,7 +126,7 @@ const framePath = '/reference/contact/index.html';
           wrapper.style.position = 'relative';
           wrapper.style.display = 'block';
           wrapper.style.width = '100%';
-          wrapper.style.height = mapFrame.style.height || '100%';
+          wrapper.style.height = mapFrame.style.height || `${mapFrame.offsetHeight || 450}px`;
 
           const openMapsLink = mapFrame.ownerDocument.createElement('a');
           openMapsLink.href = 'https://www.google.com/maps/search/?api=1&query=Stretch%20Therapy%2C%201st%20Floor%2C%2029%2C%20Jalan%20SS';
@@ -140,19 +140,36 @@ const framePath = '/reference/contact/index.html';
           openMapsLink.style.zIndex = '2';
           openMapsLink.style.display = 'inline-flex';
           openMapsLink.style.alignItems = 'center';
-          openMapsLink.style.gap = '6px';
-          openMapsLink.style.padding = '8px 12px';
-          openMapsLink.style.borderRadius = '3px';
+          openMapsLink.style.gap = '8px';
+          openMapsLink.style.minHeight = '42px';
+          openMapsLink.style.boxSizing = 'border-box';
+          openMapsLink.style.padding = '0 14px';
+          openMapsLink.style.border = '0';
+          openMapsLink.style.borderRadius = '2px';
           openMapsLink.style.background = '#fff';
           openMapsLink.style.color = '#1a73e8';
-          openMapsLink.style.font = '500 18px Arial, sans-serif';
+          openMapsLink.style.font = '500 18px Roboto, Arial, sans-serif';
           openMapsLink.style.lineHeight = '1';
           openMapsLink.style.textDecoration = 'none';
-          openMapsLink.style.boxShadow = '0 1px 4px rgba(0,0,0,.3)';
+          openMapsLink.style.whiteSpace = 'nowrap';
+          openMapsLink.style.boxShadow = '0 1px 4px -1px rgba(0,0,0,.3)';
 
-          const externalIcon = mapFrame.ownerDocument.createElement('span');
-          externalIcon.textContent = '↗';
+          const externalIcon = mapFrame.ownerDocument.createElementNS('http://www.w3.org/2000/svg', 'svg');
+          externalIcon.setAttribute('viewBox', '0 0 24 24');
+          externalIcon.setAttribute('width', '18');
+          externalIcon.setAttribute('height', '18');
+          externalIcon.setAttribute('fill', 'none');
+          externalIcon.setAttribute('stroke', 'currentColor');
+          externalIcon.setAttribute('stroke-width', '2');
+          externalIcon.setAttribute('stroke-linecap', 'round');
+          externalIcon.setAttribute('stroke-linejoin', 'round');
+          externalIcon.style.flex = '0 0 auto';
           externalIcon.setAttribute('aria-hidden', 'true');
+          const iconPath = mapFrame.ownerDocument.createElementNS('http://www.w3.org/2000/svg', 'path');
+          iconPath.setAttribute('d', 'M14 3h7v7h-2V6.41l-9.83 9.83-1.41-1.41L17.59 5H14V3z M5 5h6v2H7v10h10v-4h2v6H5V5z');
+          externalIcon.setAttribute('fill', 'currentColor');
+          externalIcon.setAttribute('stroke', 'none');
+          externalIcon.appendChild(iconPath);
           openMapsLink.appendChild(externalIcon);
 
           mapFrame.parentNode.insertBefore(wrapper, mapFrame);
@@ -213,3 +230,4 @@ const framePath = '/reference/contact/index.html';
     </script>
   </body>
 </html>
+
