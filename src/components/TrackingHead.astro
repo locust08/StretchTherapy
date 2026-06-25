@@ -18,22 +18,34 @@ const validGa4MeasurementId = /^G-[A-Z0-9]+$/i.test(ga4MeasurementId || '')
 {validGtmId && (
   <script is:inline define:vars={{ gtmId: validGtmId }}>
     window.dataLayer = window.dataLayer || [];
-    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer',gtmId);
+    window.dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
+    window.__loadStretchTherapyGtm = function() {
+      if (window.__stretchTherapyGtmLoaded) return;
+      window.__stretchTherapyGtmLoaded = true;
+      (function(w,d,s,l,i){w[l]=w[l]||[];var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer',gtmId);
+    };
+
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(window.__loadStretchTherapyGtm, { timeout: 2000 });
+    } else {
+      window.addEventListener('load', function() {
+        window.setTimeout(window.__loadStretchTherapyGtm, 800);
+      }, { once: true });
+    }
   </script>
 )}
 
-{validGa4MeasurementId && (
+{!validGtmId && validGa4MeasurementId && (
   <script async src={`https://www.googletagmanager.com/gtag/js?id=${validGa4MeasurementId}`}></script>
 )}
 <script is:inline define:vars={{ ga4MeasurementId: validGa4MeasurementId, hasGtm: Boolean(validGtmId) }}>
   window.dataLayer = window.dataLayer || [];
   window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
 
-  if (ga4MeasurementId) {
+  if (!hasGtm && ga4MeasurementId) {
     window.gtag('js', new Date());
     window.gtag('config', ga4MeasurementId);
   }
