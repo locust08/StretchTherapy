@@ -1,14 +1,54 @@
 <script is:inline>
-  window.addEventListener('message', (event) => {
-    if (event.origin !== 'https://forms.zohopublic.com') return;
+  (() => {
+    const formProvider = 'zoho';
+    const formContext = 'private_assessment';
+    let leadFormTracked = false;
 
-    const message = typeof event.data === 'string' ? event.data : JSON.stringify(event.data || {});
-    if (!/submit|success|thank|record|form/i.test(message)) return;
+    const trackLeadFormSubmit = (triggerSource) => {
+      if (leadFormTracked) return;
+      leadFormTracked = true;
 
-    window.trackStretchTherapyEvent?.('lead_form_submit', {
-      page_location: window.location.href,
-      form_provider: 'zoho',
-      form_context: 'private_assessment',
+      window.trackStretchTherapyEvent?.('lead_form_submit', {
+        page_location: window.location.href,
+        form_provider: formProvider,
+        form_context: formContext,
+        trigger_source: triggerSource,
+      });
+    };
+
+    const bindZohoFrameLoadFallback = () => {
+      const zohoFrame = document.querySelector('iframe[src*="forms.zohopublic.com"]');
+      if (!zohoFrame || zohoFrame.dataset.stretchtherapyLeadTracked === 'true') return;
+
+      zohoFrame.dataset.stretchtherapyLeadTracked = 'true';
+      let loadCount = 0;
+
+      window.setTimeout(() => {
+        loadCount = Math.max(loadCount, 1);
+      }, 3000);
+
+      zohoFrame.addEventListener('load', () => {
+        loadCount += 1;
+
+        if (loadCount > 1) {
+          trackLeadFormSubmit('zoho_iframe_load');
+        }
+      });
+    };
+
+    window.addEventListener('message', (event) => {
+      if (event.origin !== 'https://forms.zohopublic.com') return;
+
+      const message = typeof event.data === 'string' ? event.data : JSON.stringify(event.data || {});
+      if (!/submit|success|thank|record|form/i.test(message)) return;
+
+      trackLeadFormSubmit('zoho_post_message');
     });
-  });
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bindZohoFrameLoadFallback, { once: true });
+    } else {
+      bindZohoFrameLoadFallback();
+    }
+  })();
 </script>
