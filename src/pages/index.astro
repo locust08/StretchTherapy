@@ -18,12 +18,14 @@ const routeMap = {
   "https://stretchtherapy.my/corporate": "/corporate"
 };
 const framePath = '/reference/home/index.html';
+const pageMetas = head.metas?.filter((meta) => meta.name !== 'viewport') ?? [];
 ---
 
 <html lang="en">
   <head>
     <title>{head.title}</title>
-    {head.metas?.map((meta) => <meta {...meta} />)}
+    {pageMetas.map((meta) => <meta {...meta} />)}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -45,21 +47,23 @@ const framePath = '/reference/home/index.html';
   </head>
   <body>
     <TrackingNoScript />
-    <section aria-label="Page heading structure" style="position:absolute !important;width:1px !important;height:1px !important;margin:-1px !important;padding:0 !important;overflow:hidden !important;clip:rect(0 0 0 0) !important;clip-path:inset(50%) !important;white-space:nowrap !important;border:0 !important;">
-      <h1>We are the only gym in Malaysia offering stretching classes and workshops as a form of exercise.</h1>
-      <h2>Stretch Therapy</h2>
-      <h2>For recovery, pain therapy, sports performance and wellbeing</h2>
-      <h2>Why Stretch Therapy</h2>
-      <h3>Clear goals</h3>
-      <h3>Find the root cause, achieve long-lasting effects</h3>
-      <h3>Simple props and equipment</h3>
-      <h3>Body and neural integration</h3>
-      <h3>Proven results</h3>
-      <h2>Who are we</h2>
-      <h2>First-timers</h2>
-      <h2>Follow Us</h2>
-    </section>
-    <iframe id="page-frame" src={framePath} title="Stretch Therapy homepage content"></iframe>
+    <main>
+      <section aria-label="Page heading structure" style="position:absolute !important;width:1px !important;height:1px !important;margin:-1px !important;padding:0 !important;overflow:hidden !important;clip:rect(0 0 0 0) !important;clip-path:inset(50%) !important;white-space:nowrap !important;border:0 !important;">
+        <h1>We are the only gym in Malaysia offering stretching classes and workshops as a form of exercise.</h1>
+        <h2>Stretch Therapy</h2>
+        <h2>For recovery, pain therapy, sports performance and wellbeing</h2>
+        <h2>Why Stretch Therapy</h2>
+        <h3>Clear goals</h3>
+        <h3>Find the root cause, achieve long-lasting effects</h3>
+        <h3>Simple props and equipment</h3>
+        <h3>Body and neural integration</h3>
+        <h3>Proven results</h3>
+        <h2>Who are we</h2>
+        <h2>First-timers</h2>
+        <h2>Follow Us</h2>
+      </section>
+      <iframe id="page-frame" src={framePath} title="Stretch Therapy homepage content"></iframe>
+    </main>
     <script is:inline>
       const iframe = document.getElementById('page-frame');
       const sourceUrlValue = "https://stretchtherapy.my/";
